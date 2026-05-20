@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="vi">
+<script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Deutsch B2 Pro Trainer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0f1d;
+            --glass: rgba(30, 41, 59, 0.7);
+            --primary: #a78bfa;
+            --success: #34d399;
+            --danger: #f87171;
+            --text: #f8fafc;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Nunito', Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at top right, #1e1b4b, #0a0f1d);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container { width: 100%; max-width: 420px; box-sizing: border-box; }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+        }
+
+        h2 { font-weight: 700; font-size: 20px; margin-top: 0; color: var(--primary); text-align: center; margin-bottom: 5px; }
+
+        .btn-main {
+            width: 100%; border-radius: 16px; border: none;
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            color: white; font-weight: 700; cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .btn-group { display: flex; gap: 8px; margin-bottom: 15px; }
+        
+        .btn-sub {
+            flex: 1; padding: 8px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border); border-radius: 10px;
+            color: var(--text); cursor: pointer; text-align: center;
+            box-sizing: border-box;
+        }
+
+        .flex-center-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            line-height: 1.3;
+        }
+
+        .quiz-vn { font-size: 26px; font-weight: 700; text-align: center; margin: 15px 0; line-height: 1.4; }
+        .type-tag { 
+            display: inline-block; padding: 4px 12px; background: rgba(167, 139, 250, 0.2); 
+            color: var(--primary); border-radius: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+
+        textarea#ans-input {
+            width: 100%; 
+            padding: 18px; 
+            border-radius: 16px; 
+            border: 2px solid var(--border);
+            background: rgba(0,0,0,0.2); 
+            color: white; 
+            text-align: center; 
+            outline: none; 
+            box-sizing: border-box;
+            font-family: 'Nunito', monospace; 
+            font-size: 22px; 
+            font-weight: 600; 
+            letter-spacing: 1px; 
+            font-variant-ligatures: none; 
+            resize: none; 
+            line-height: 1.5; 
+            overflow: hidden; 
+        }
+
+        .feedback-box { min-height: 70px; margin: 15px 0; text-align: center; font-size: 14px; }
+
+        .heat-item {
+            background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.2);
+            padding: 10px; border-radius: 14px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .streak-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; }
+        .dot.active { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="menu-screen">
+        <div class="glass-card">
+            <h2>Vokabelübung Kontext B2.1 <span id="lek-stats" style="font-size: 14px; font-weight: normal; color: var(--success); margin-left: 10px; background: rgba(52, 211, 153, 0.1); padding: 4px 10px; border-radius: 12px;">0/0</span></h2>
+            
+            <div style="font-size: 13px; text-align: center; margin-bottom: 20px; color: rgba(255,255,255,0.8); font-style: italic; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                "Es ist wichtig, mit Spaß zu lernen."<br>
+            </div>
+
+            <div id="lek-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 20px;"></div>
+            
+            <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+                <button class="btn-sub flex-center-col" id="btn-fehler" onclick="selectFehler()" style="border-color: var(--danger); color: var(--danger); font-weight: bold; flex: 1;">
+                    <span style="font-size: 13px;">🚨 Sửa lại các câu sai</span>
+                    <span style="font-size: 10px; font-weight: normal; margin-top: 3px;">(Fehler wiederholen)</span>
+                </button>
+                <button class="btn-main flex-center-col" id="btn-adv" onclick="startAdvancedMode()" style="background: linear-gradient(135deg, #f59e0b, #ef4444); flex: 1; border-radius: 10px;">
+                    <span style="font-size: 14px;">🔥 Nâng cao B2</span>
+                    <span style="font-size: 11px; font-weight: normal; margin-top: 3px;">(B2 Erweitert)</span>
+                </button>
+            </div>
+
+            <button class="btn-main flex-center-col" style="padding: 14px;" onclick="startSession('normal')">
+                <span style="font-size: 16px;">Bắt đầu học (5 từ)</span>
+                <span style="font-size: 12px; font-weight: normal; opacity: 0.8; margin-top: 3px;">Lerne (5 Wörter)</span>
+            </button>
+            
+            <div style="display: flex; gap: 8px; margin-top: 10px;">
+                <button class="btn-main flex-center-col" style="background: linear-gradient(135deg, #3b82f6, #2dd4bf); flex: 1;" onclick="startSession('mixed')">
+                    <span style="font-size: 14px;">🔥Kiểm tra từ vựng - sai xóa Streak</span>
+                    <span style="font-size: 10px; font-weight: normal; opacity: 0.9; margin-top: 3px;">(Test)</span>
+                </button>
+                <button class="btn-main flex-center-col" style="background: linear-gradient(135deg, #10b981, #059669); flex: 1;" onclick="startSession('quick')">
+                    <span style="font-size: 14px;">⚡ Ôn buổi tối - không xóa Streak</span>
+                    <span style="font-size: 10px; font-weight: normal; opacity: 0.9; margin-top: 3px;">(Abend lernen, Kein Streak-Verlust)</span>
+                </button>
+            </div>
+            
+            <div style="display: flex; gap: 8px; margin-top: 15px;">
+                <button class="btn-sub flex-center-col" style="color: #34d399; border-color: #34d399; font-weight: bold; padding: 10px;" onclick="exportData()">
+                    <span style="font-size: 12px;">💾 Sao lưu Streak</span>
+                    <span style="font-size: 10px; font-weight: normal; margin-top: 2px;">(Backup)</span>
+                </button>
+                <button class="btn-sub flex-center-col" style="color: #60a5fa; border-color: #60a5fa; font-weight: bold; padding: 10px;" onclick="importData()">
+                    <span style="font-size: 12px;">📂 Phục hồi Streak</span>
+                    <span style="font-size: 10px; font-weight: normal; margin-top: 2px;">(Wiederherstellen)</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="glass-card">
+            <div class="btn-group">
+                <button class="btn-sub" onclick="toggleAll(true)" style="font-size: 11px;">Chọn hết</button>
+                <button class="btn-sub" onclick="toggleAll(false)" style="font-size: 11px;">Bỏ chọn</button>
+                <button class="btn-sub" style="color: var(--danger); font-size: 11px;" onclick="resetStreak()">Xóa Streak</button>
+            </div>
+            <div id="vocab-list" style="max-height: 200px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+        <div style="font-size: 14px; color: #94a3b8; text-align: center; margin-bottom: 15px; font-style: italic;">
+            💡 [sich Akk/Dat] + [Präpositionen] + jemand../ etwas (Akk/Dat) + <b>[Verben am Ende]</b>
+        </div>
+        <div class="glass-card">
+            <div class="streak-dots" id="dots"></div>
+            <div style="text-align: center;"><span class="type-tag" id="q-type"></span></div>
+            <div class="quiz-vn" id="q-vn"></div>
+            <textarea id="ans-input" rows="2" placeholder="Ergänzen Sie bitte den deutschen Text..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true"></textarea>
+            <div class="feedback-box" id="fb"></div>
+            <button class="btn-main flex-center-col" id="check-btn" onclick="processCheck()" style="padding: 14px; font-size: 16px;">Checken</button>
+            <p onclick="location.reload()" style="text-align: center; font-size: 12px; color: var(--text); cursor: pointer; margin-top: 20px; opacity: 0.6">← Zurück zum Menü</p>
+        </div>
+        <div class="glass-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
+                <span style="font-size: 13px; font-weight: 700; color: var(--danger)">TỪ HAY SAI (HEATMAP)</span>
+                <span style="font-size: 11px; cursor: pointer; opacity: 0.6" onclick="resetHeat()">Xóa hết</span>
+            </div>
+            <div id="heat-cloud"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const data = [
+        {
+            "word": "verantwortlich",
+            "ans": "für jemanden/etwas verantwortlich sein",
+            "type": "Adjektiv",
+            "forms": "ist verantwortlich, war verantwortlich, ist verantwortlich gewesen",
+            "vnword": "có trách nhiệm",
+            "vnans": "chịu trách nhiệm về ai/cái gì",
+            "b1_ex": "Ich bin für das Projekt verantwortlich.",
+            "vn_b1": "Tôi chịu trách nhiệm về dự án này.",
+            "b2_ex": "Es ist 중요, dass jeder für seine eigenen Fehler verantwortlich ist.",
+            "vn_b2": "Điều quan trọng là mỗi người phải tự chịu trách nhiệm về lỗi lầm của chính mình.",
+            "lek": 1,
+            "ant": "unverantwortlich / [B2] pflichtvergessen (vô trách nhiệm / lơ là bổn phận)"
+        }
+    ];
+
+    let isMixedMode = false; 
+    let isNoStreakMode = false; 
+    let isWaitingForNext = false; 
+
+    // Đồng bộ kho lưu trữ thử nghiệm
+    let currentLek = localStorage.getItem('b2_test_lek') || 1; 
+    if (currentLek !== 'fehler') currentLek = parseInt(currentLek) || 1;
+    
+    let mastery = JSON.parse(localStorage.getItem('b2_pro_test')) || {};
+    let session = [];
+    let idx = 0;
+    let penaltyMode = false;
+    let penaltyCount = 0;
+    let currentStep = 1; 
+    let isAdvancedMode = false;
+    let isTransitioning = false; 
+
+    // --- ĐỘNG CƠ ÂM THANH GIỌNG NAM ĐỨC (MỚI) ---
+    const globalAudio = new Audio();
+
+    function speakGerman(text) {
+        if (!text) return;
+        
+        let cleanText = text.split(',')[0].trim();
+        
+        // Vẫn giữ bộ lọc làm sạch text của bạn để đọc chuẩn Dativ/Akkusativ
+        cleanText = cleanText
+            .replace(/\+\s*(jmdm\.|jmdn\.|jmd\.|etw\.|etwas)\s*\((Da|Akk|D|A|Dat)\)/gi, (match, obj, kasus) => {
+                let k = /Da|D|Dat/i.test(kasus) ? "Dativ" : /Gen|G/i.test(kasus) ? "Genitiv" : "Akkusativ";
+                let o = obj.includes('jmdm') ? "jemandem" : obj.includes('jmdn') ? "jemanden" : obj.includes('jmd') ? "jemand" : "etwas";
+                return `plus ${k} ${o}`;
+            })
+            .replace(/\bDa\b|\bDat\b|\bD\b/g, "Dativ")
+            .replace(/\bAkk\b|\bA\b/g, "Akkusativ")
+            .replace(/\bGen\b|\bG\b/g, "Genitiv") 
+            .replace(/\bjmdm\b/gi, "jemandem").replace(/\bjmdn\b/gi, "jemanden").replace(/\betw\b/gi, "etwas")
+            .replace(/\b(r|r\.)\/(e|e\.)\s+(\w+)/g, "der $3, die $3")
+            .replace(/\br\.\s/g, "der ").replace(/\be\.\s/g, "die ").replace(/\bs\.\s/g, "das ");
+
+        // Gọi thư viện ResponsiveVoice với giọng Nam tiếng Đức (Deutsch Male)
+        if (window.responsiveVoice) {
+            responsiveVoice.speak(cleanText, "Deutsch Male", { rate: 0.95 });
+        } else {
+            console.log("Chưa tải được thư viện giọng nói.");
+        }
+    }
+    // --- KẾT THÚC HỆ THỐNG ÂM THANH ---
+
+    function exportData() {
+        const dataStr = JSON.stringify(mastery);
+        const blob = new Blob([dataStr], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const date = new Date();
+        const dateString = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        a.download = `Streak_B2_Backup_${dateString}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function importData() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.txt'; 
+        input.onchange = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                try {
+                    const parsed = JSON.parse(content);
+                    mastery = parsed;
+                    save();
+                    alert("✨ Phục hồi Streak thành công! Mọi thứ đã trở lại.");
+                    location.reload();
+                } catch(err) {
+                    alert("File không hợp lệ hoặc bị lỗi! Vui lòng chọn đúng file Backup.");
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    function selectFehler() {
+        currentLek = 'fehler';
+        localStorage.setItem('b2_test_lek', 'fehler');
+        document.querySelectorAll('#lek-grid .btn-sub').forEach(el => el.style.borderColor = 'var(--border)');
+        document.getElementById('btn-fehler').style.background = 'rgba(248, 113, 113, 0.2)';
+        renderList();
+    }
+
+    function startAdvancedMode() {
+        let notMastered = data.filter(v => mastery[v.word].a && mastery[v.word].s < 3);
+        if (notMastered.length > 0) {
+            return alert(`🛑 CHƯA ĐỦ ĐIỀU KIỆN LÀM B2!\n\nBạn còn ${notMastered.length} thẻ chưa hoàn thành!`);
+        }
+
+        isAdvancedMode = true;
+        let availablePool = data.filter(v => mastery[v.word].a); 
+        if (availablePool.length === 0) return alert("Vui lòng chọn ít nhất 1 câu trong danh sách để ôn!");
+        
+        session = availablePool.sort(() => 0.5 - Math.random()).slice(0, 5);
+        idx = 0; currentStep = 1; penaltyMode = false; penaltyCount = 0; isWaitingForNext = false;
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        renderHeat(); 
+        showWord();
+    }
+
+    function normalizeGerman(text) {
+        if (!text) return "";
+        return text.toLowerCase()
+            .replace(/\b(r\s*\/?\s*e|e\s*\/?\s*r|r\.\s*\/?\s*e\.|e\.\s*\/?\s*r\.)\b/g, "der die")
+            .replace(/[.,\/()]/g, " ")
+            .replace(/\s+/g, ' ').trim()
+            .replace(/\betw\b/g, "etwas")
+            .replace(/\bjmdn\b/g, "jemanden")
+            .replace(/\bjmdm\b/g, "jemandem")
+            .replace(/\bjmd\b/g, "jemand")
+            .replace(/\br\b/g, "der")
+            .replace(/\be\b/g, "die")
+            .replace(/\bs\b/g, "das")
+            .replace(/\b(d|da|dat)\b/g, "dativ")
+            .replace(/\b(a|akk)\b/g, "akkusativ")
+            .replace(/\b(jemandem|jemanden|jemand)\s+(etwas)\b/g, "$2 $1");
+    }
+
+    function init() {
+        const grid = document.getElementById('lek-grid');
+        grid.innerHTML = "";
+        grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+        for(let i=1; i<=6; i++) {
+            const b = document.createElement('div');
+            b.className = `btn-sub flex-center-col ${i === currentLek ? 'active' : ''}`;
+            b.style.borderColor = i === currentLek ? 'var(--primary)' : 'var(--border)';
+            b.innerText = `Lek ${i}`;
+            b.onclick = () => {
+                currentLek = i;
+                localStorage.setItem('b2_test_lek', i);
+                document.querySelectorAll('#lek-grid .btn-sub').forEach(el => el.style.borderColor = 'var(--border)');
+                document.getElementById('btn-fehler').style.background = 'rgba(255,255,255,0.05)';
+                b.style.borderColor = 'var(--primary)';
+                renderList();
+            };
+            grid.appendChild(b);
+        }
+
+        if (currentLek === 'fehler') {
+            document.querySelectorAll('#lek-grid .btn-sub').forEach(el => el.style.borderColor = 'var(--border)');
+            document.getElementById('btn-fehler').style.background = 'rgba(248, 113, 113, 0.2)';
+        }
+
+        data.forEach(v => { 
+            if (mastery[v.word] === undefined) {
+                mastery[v.word] = { s: 0, w: 0, a: true }; 
+            }
+        });
+        
+        save();
+        renderHeat();
+    }
+
+    function renderList() {
+        const currentData = data.filter(v => currentLek === 'fehler' ? (v.type && v.type.includes("Fehler")) : v.lek == currentLek);
+        const masteredCount = currentData.filter(v => mastery[v.word] && mastery[v.word].s >= 3).length;
+        
+        const statsEl = document.getElementById('lek-stats');
+        if(statsEl) {
+            statsEl.innerText = `${masteredCount}/${currentData.length} 🔥`;
+            if(masteredCount === currentData.length && currentData.length > 0) {
+                statsEl.style.background = "var(--success)";
+                statsEl.style.color = "#000";
+            } else {
+                statsEl.style.background = "rgba(52, 211, 153, 0.1)";
+                statsEl.style.color = "var(--success)";
+            }
+        }
+
+        document.getElementById('vocab-list').innerHTML = currentData.map(v => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border)">
+                <div style="display:flex; align-items:center; flex: 1;">
+                    <input type="checkbox" ${mastery[v.word].a?'checked':''} onchange="mastery['${v.word}'].a=this.checked; save();" style="cursor:pointer; transform: scale(1.2);">
+                    <div style="margin-left:14px">
+                        <div style="font-size:14px; font-weight:600; color:var(--text); line-height: 1.2;">
+                            ${v.word}
+                            <span style="font-size: 11px; color: #94a3b8; font-weight: 400; margin-left: 6px; font-style: italic;">(${v.ans})</span>
+                        </div>
+                        <div style="font-size:11px; color:rgba(248, 250, 252, 0.5); margin-top: 2px;">${v.vnans}</div>
+                    </div>
+                </div>
+                <span style="font-size:11px; font-weight:bold; color:var(--success)">🔥 ${mastery[v.word].s}/3</span>
+            </div>
+        `).join('');
+    }
+
+    function startSession(mode = 'normal') {
+        isAdvancedMode = false;
+        isMixedMode = (mode === 'mixed' || mode === 'quick');
+        isNoStreakMode = (mode === 'quick');
+
+        let availablePool = [];
+
+        if (isMixedMode) {
+            availablePool = data.filter(v => mastery[v.word].a && mastery[v.word].s >= 3);
+            if (availablePool.length === 0) {
+                return alert("Bạn chưa có từ nào đạt đủ Streak 3/3 để ôn tập!");
+            }
+        } else {
+            availablePool = data.filter(v => 
+                (currentLek === 'fehler' ? (v.type && v.type.includes("Fehler")) : v.lek == currentLek) && 
+                mastery[v.word].a && 
+                mastery[v.word].s < 3
+            );
+            if (availablePool.length === 0) {
+                return alert("Chúc mừng! Bạn đã học thuộc hết (đạt 3/3) các từ ở bài này!");
+            }
+        }
+
+        if (isMixedMode) {
+            session = availablePool.sort(() => Math.random() - 0.5).slice(0, 15);
+        } else {
+            session = availablePool.slice(0, 5).sort(() => Math.random() - 0.5);
+        }
+
+        idx = 0; currentStep = 1; penaltyMode = false; penaltyCount = 0; isWaitingForNext = false;
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        renderHeat();
+        showWord();
+    }
+
+    function showWord() {
+        const quizScreen = document.getElementById('quiz-screen');
+        
+        if (idx >= session.length) {
+            quizScreen.innerHTML = `
+                <div class="glass-card flex-center-col" style="text-align:center; min-height: 200px;" id="finish-card">
+                    <h2 style="color:var(--success); font-size: 28px;">Fertig! 🥳</h2>
+                    <p style="font-size: 14px; opacity: 0.8; margin-bottom:20px">Đã hoàn thành lượt ôn tập này.</p>
+                    <button class="btn-main" style="padding: 14px;" onclick="location.reload()">Về Menu (Enter)</button>
+                </div>`;
+            return;
+        }
+
+        const v = session[idx];
+        const inputField = document.getElementById('ans-input');
+        if (currentStep !== 1 && currentStep !== 2) currentStep = 1;
+
+        let fullType = (v.type || "Wort").replace(/\bAdj\.?\b/gi, "Adjektiv").replace(/\bAdv\.?\b/gi, "Adverb");
+        const stepText = isAdvancedMode ? (currentStep === 1 ? "B2 CỤM TỪ (Dịch)" : "B2 VÍ DỤ (Dịch nguyên câu)") : (currentStep === 1 ? "BƯỚC 1: TỪ GỐC" : "BƯỚC 2: CỤM TỪ");
+        const currentVN = isAdvancedMode ? (currentStep === 1 ? v.vnans : v.vn_b2) : (currentStep === 1 ? v.vnword : v.vnans);
+
+        let quickModeTag = isNoStreakMode ? `<span style="color: #34d399;">⚡ ÔN NHANH</span> | ` : "";
+
+        document.getElementById('q-type').innerHTML = `${quickModeTag}Wort ${idx + 1}/${session.length} | <span style="color: #fde047;">${fullType}</span> | ${stepText}`;
+        document.getElementById('q-vn').innerText = currentVN;
+        document.getElementById('fb').innerHTML = ""; 
+        
+        inputField.value = "";
+        inputField.placeholder = isAdvancedMode ? (currentStep === 1 ? "Gõ cụm từ tiếng Đức..." : "Gõ trọn vẹn câu ví dụ B2...") : (currentStep === 1 ? "Gõ từ gốc..." : "Gõ cụm từ đầy đủ...");
+        inputField.style.background = "rgba(0,0,0,0.2)";
+        
+        updateDots();
+        setTimeout(() => inputField.focus(), 50);
+    }
+
+    function updateDots() {
+        const v = session[idx];
+        const dotsContainer = document.getElementById('dots');
+        
+        dotsContainer.style.display = "flex";
+        dotsContainer.style.flexDirection = "column";
+        dotsContainer.style.alignItems = "center";
+        dotsContainer.style.gap = "10px";
+
+        if (penaltyMode) {
+            dotsContainer.innerHTML = `
+                <div style="display: flex; gap: 8px;">
+                    ${[1,2,3].map(i => `<div class="dot ${penaltyCount >= i ? 'active' : ''}" style="${penaltyCount >= i ? 'background:var(--danger); box-shadow: 0 0 10px var(--danger);' : ''}"></div>`).join('')}
+                </div>
+                <div style="font-size: 10px; color: var(--danger); font-weight: bold;">BITTE CẨN THẬN!</div>
+            `;
+        } else {
+            dotsContainer.innerHTML = `
+                <div style="display: flex; gap: 6px;">
+                    ${[1,2,3].map(i => `
+                        <div class="dot ${mastery[v.word].s >= i ? 'active' : ''}" 
+                             style="width: 6px; height: 6px; ${mastery[v.word].s >= i ? 'background: #fbbf24; box-shadow: 0 0 8px #fbbf24;' : ''}">
+                        </div>`).join('')}
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div class="dot ${currentStep >= 1 ? 'active' : ''}" style="width: 10px; height: 10px; border: 1px solid var(--primary);" title="Bước 1"></div>
+                    <div style="width: 20px; height: 1px; background: var(--border);"></div>
+                    <div class="dot ${currentStep >= 2 ? 'active' : ''}" style="width: 10px; height: 10px; border: 1px solid var(--primary);" title="Bước 2"></div>
+                </div>
+            `;
+        }
+    }
+
+    function processCheck() {
+        if (isTransitioning || isWaitingForNext) return; 
+
+        const input = document.getElementById('ans-input');
+        const v = session[idx];
+        const target = isAdvancedMode ? (currentStep === 1 ? v.ans : v.b2_ex) : (currentStep === 1 ? v.word : v.ans);
+        const correct = normalizeGerman(input.value) === normalizeGerman(target);
+
+        if (!correct && !penaltyMode && !isAdvancedMode) {
+            const removeKasus = (str) => normalizeGerman(str).replace(/\b(akkusativ|dativ|genitiv)\b/gi, '').replace(/\s+/g, ' ').trim();
+            if (removeKasus(input.value) === removeKasus(target) && removeKasus(target) !== "") {
+                input.style.background = "rgba(251, 191, 36, 0.3)"; 
+                document.getElementById('fb').innerHTML = `
+                    <div style="color: #fbbf24; font-weight: bold; margin-top: 10px;">
+                        ⚠️ Fast richtig! Dir fehlt nur der Kasus (Akk, Dat, Genitiv...). Bitte ergänzen!<br>
+                        <span style="font-size: 13px; opacity: 0.9;">Bạn viết đúng rồi, nhưng thiếu đuôi cách. Hãy bổ sung nhé!</span><br>
+                        <span style="font-size: 12px; opacity: 0.8;">Gợi ý: ${target}</span>
+                    </div>`;
+                return; 
+            }
+        }
+
+        if (!correct && currentStep === 1 && (v.type||"").toLowerCase().includes("nomen") && !penaltyMode && !isAdvancedMode) {
+            const parts = target.split(',');
+            if (parts.length > 1) {
+                if (normalizeGerman(input.value) === normalizeGerman(parts[0])) {
+                    input.style.background = "rgba(251, 191, 36, 0.3)"; 
+                    document.getElementById('fb').innerHTML = `
+                        <div style="color: #fbbf24; font-weight: bold; margin-top: 10px;">
+                            ⚠️ Bạn thiếu số nhiều rồi! Thêm dấu phẩy và đuôi số nhiều nhé.<br><span style="font-size: 12px; opacity: 0.8;">Gợi ý: ${target}</span>
+                        </div>`;
+                    return; 
+                }
+            }
+        }
+
+        if (correct) {
+            speakGerman(target);
+            if (penaltyMode) {
+                if (++penaltyCount >= 3) {
+                    penaltyMode = false;
+                    penaltyCount = 0;
+                    input.style.background = "var(--success)";
+                    isTransitioning = true; 
+                    
+                    setTimeout(() => {
+                        if (currentStep === 1) { currentStep = 2; showWord(); } else { currentStep = 1; idx++; showWord(); }
+                        isTransitioning = false; 
+                    }, 200); 
+                } else {
+                    input.style.background = "var(--success)";
+                    setTimeout(() => {
+                        input.value = ""; 
+                        input.style.background = "rgba(248, 113, 113, 0.2)";
+                        updateDots();
+                    }, 300);
+                }
+            } else {
+                input.style.background = "var(--success)";
+                isTransitioning = true; 
+                
+                if (currentStep === 1) {
+                    setTimeout(() => {
+                        currentStep = 2; 
+                        isTransitioning = false; 
+                        showWord(); 
+                    }, 150);
+                } else {
+                    if (!isAdvancedMode && !isNoStreakMode) { 
+                        if (isMixedMode) {
+                            mastery[v.word].s = 4; 
+                        } else {
+                            mastery[v.word].s++; 
+                        }
+                        save(); 
+                    }
+                    
+                    setTimeout(() => {
+                        currentStep = 1; 
+                        idx++; 
+                        isTransitioning = false; 
+                        showWord(); 
+                    }, 150); 
+                }
+            }
+        } else {
+            speakGerman(target);
+            
+            if (isNoStreakMode) {
+                input.style.background = "rgba(248, 113, 113, 0.2)";
+                showDetailFeedback(v, false);
+                isWaitingForNext = true; 
+            } else {
+                if (!penaltyMode) {
+                    if (!isAdvancedMode) {
+                        mastery[v.word].s = 0;
+                        mastery[v.word].w = (mastery[v.word].w || 0) + 1;
+                        save(); renderHeat();
+                    }
+                    penaltyMode = true; penaltyCount = 0; 
+                } else { penaltyCount = 0; }
+                input.style.background = "rgba(248, 113, 113, 0.2)";
+                updateDots(); 
+                showDetailFeedback(v, false);
+            }
+        }
+    }
+
+    function showDetailFeedback(v, isCorrect) {
+        const fb = document.getElementById('fb');
+        const primaryDisplay = isAdvancedMode ? (currentStep === 1 ? v.ans : v.b2_ex) : (currentStep === 1 ? v.word : v.ans);
+        const secondaryDisplay = isAdvancedMode ? (currentStep === 1 ? v.word : v.ans) : (currentStep === 1 ? v.ans : v.word);
+
+        let warningText = "⚠️ Sai rồi! Hãy gõ lại chính xác 3 lần!";
+        if (isNoStreakMode) {
+            warningText = "⚠️ Sai rồi! (Streak được bảo toàn). Hãy xem kỹ đáp án và <u>bấm Enter</u> để đi tiếp!";
+        }
+
+        fb.innerHTML = `
+            <div style="cursor:default; margin-top:15px; padding:15px; background:rgba(255,255,255,0.05); border-radius:16px; text-align:left; border: 1px solid ${isCorrect ? 'var(--success)' : 'var(--danger)'}">
+                <div style="color:var(--primary); font-weight:700; margin-bottom:5px; font-size:16px;">
+                    🇩🇪 ${primaryDisplay} <span onclick="event.stopPropagation(); speakGerman('${primaryDisplay.replace(/'/g, "\\'")}')" style="cursor:pointer">🔊</span>
+                </div>
+                ${!isCorrect ? `<div style="font-size:12px; color:rgba(255,255,255,0.5); margin-bottom:10px;">Ghi chú: ${secondaryDisplay}</div>` : ''}
+                <div style="font-size:12px; margin-bottom:5px; color:var(--success)">VN (Gốc): ${v.vnword}</div>
+                <div style="font-size:13px; margin-bottom:10px; opacity:0.9">VN (Cụm): ${v.vnans}</div>
+                <div style="font-size:11px; margin-bottom:10px; opacity:0.7; font-style: italic;">${v.forms}</div>
+                
+                ${v.ant && v.ant !== "-" ? `<div style="font-size:12px; margin-bottom:10px; color:#fbbf24;"><b>Gegenteil (Trái nghĩa):</b> ${v.ant}</div>` : ''}
+
+                <div style="font-size:13px; border-top:1px solid var(--border); padding-top:10px">
+                    <p style="margin:5px 0 2px 0; color: #f8fafc;"><b>B1+:</b> ${v.b1_ex}</p><p style="margin:0 0 10px 0; font-size:12px; opacity:0.7; font-style: italic;">${v.vn_b1}</p>
+                    <p style="margin:5px 0 2px 0; color: #f8fafc;"><b>B2:</b> ${v.b2_ex}</p><p style="margin:0 0 5px 0; font-size:12px; opacity:0.7; font-style: italic;">${v.vn_b2}</p>
+                </div>
+                ${!isCorrect ? `<p style="color:var(--danger); font-size:12px; margin-top:10px; text-align:center; font-weight:bold;">${warningText}</p>` : `<p style="color:var(--success); font-size:11px; margin-top:10px; text-align:center;">✨ Chính xác! Tự động lướt qua... ✨</p>`}
+            </div>
+        `;
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); 
+            
+            if (isTransitioning) return; 
+
+            const menuScreen = document.getElementById('menu-screen');
+            const quizScreen = document.getElementById('quiz-screen');
+            const input = document.getElementById('ans-input');
+
+            if (!menuScreen.classList.contains('hidden')) { startSession('normal'); return; }
+            if (document.getElementById('finish-card')) { location.reload(); return; }
+            if (!quizScreen.classList.contains('hidden')) {
+                if (typeof isWaitingForNext !== 'undefined' && isWaitingForNext) {
+                    isWaitingForNext = false;
+                    if (currentStep === 1) {
+                        currentStep = 2;
+                    } else {
+                        currentStep = 1;
+                        idx++;
+                    }
+                    showWord();
+                    return;
+                }
+                
+                if (input && input.value.trim() !== "") { processCheck(); }
+            }
+        }
+    });
+
+    function renderHeat() {
+        const cloud = document.getElementById('heat-cloud');
+        const fails = data.filter(v => (mastery[v.word].w || 0) > 0).sort((a,b) => mastery[b.word].w - mastery[a.word].w);
+        
+        if (fails.length === 0) {
+            cloud.innerHTML = `<p style="text-align:center; font-size:12px; opacity:0.4">Chưa có dữ liệu heatmap.</p>`; return;
+        }
+
+        cloud.innerHTML = fails.map((v, index) => {
+            const failCount = mastery[v.word].w;
+            const fontSize = Math.min(13 + failCount * 2, 22); 
+            const opacity = Math.min(0.3 + failCount * 0.15, 1);
+            return `
+                <div class="heat-item" style="border-left: 4px solid rgba(248, 113, 113, ${opacity}); background: rgba(248, 113, 113, 0.05); padding: 12px; margin-bottom: 10px; border-radius: 12px; flex-direction: column; align-items: stretch;">
+                    <div style="display:flex; justify-content:space-between; align-items: center; width: 100%;">
+                        <div>
+                            <b style="font-size: ${fontSize}px; color: var(--danger)">${v.word}</b>
+                            <span style="font-size: 11px; font-weight: bold; color: var(--danger); background: rgba(248, 113, 113, 0.2); padding: 2px 6px; border-radius: 4px; margin-left: 8px;">Lỗi: ${failCount}</span>
+                        </div>
+                        <button id="heat-btn-${index}" onclick="toggleHeatDetail(${index})" style="background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; cursor: pointer; padding: 4px 12px; font-size: 16px; font-weight: bold;">+</button>
+                    </div>
+                    <div style="font-size: 13px; color: var(--primary); font-weight: 600; margin-top: 5px;">Cụm từ: ${v.ans}</div>
+                    <div id="heat-detail-${index}" class="hidden" style="margin-top: 10px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;">
+                        <div style="font-size: 12px; color: #cbd5e1;"><b>Nghĩa:</b> ${v.vnword} | <i style="opacity: 0.8">${v.vnans}</i></div>
+                        <div style="font-size: 11px; margin-top: 4px; opacity: 0.6; font-style: italic;">${v.forms}</div>
+                        ${v.ant && v.ant !== "-" ? `<div style="font-size: 11px; margin-top: 4px; color: #fbbf24;"><b>Gegenteil:</b> ${v.ant}</div>` : ''}
+                        <div style="font-size: 12px; margin-top: 8px; color: #94a3b8; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px;">
+                            <p style="margin: 0 0 4px 0; color: #f8fafc;"><b>B1:</b> ${v.b1_ex}</p><p style="margin: 0 0 10px 0; opacity: 0.7; font-style: italic;">${v.vn_b1}</p>
+                            <p style="margin: 0 0 4px 0; color: #f8fafc;"><b>B2:</b> ${v.b2_ex}</p><p style="margin: 0; opacity: 0.7; font-style: italic;">${v.vn_b2}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    function toggleHeatDetail(index) {
+        const detailDiv = document.getElementById(`heat-detail-${index}`);
+        const btn = document.getElementById(`heat-btn-${index}`);
+        if (detailDiv.classList.contains('hidden')) {
+            detailDiv.classList.remove('hidden'); btn.innerText = '−'; btn.style.background = 'rgba(255,255,255,0.1)';
+        } else {
+            detailDiv.classList.add('hidden'); btn.innerText = '+'; btn.style.background = 'none';
+        }
+    }
+
+    function save() { 
+        localStorage.setItem('b2_pro_test', JSON.stringify(mastery)); 
+        renderList(); 
+    }
+    function toggleAll(st) { data.forEach(v => mastery[v.word].a = st); save(); renderList(); }
+    function resetStreak() { if(confirm("Xóa streak?")) { data.forEach(v => mastery[v.word].s = 0); save(); renderList(); } }
+    function resetHeat() { if(confirm("Xóa heatmap?")) { data.forEach(v => mastery[v.word].w = 0); save(); renderHeat(); } }
+
+    init(); 
+</script>
+</body>
+</html>
