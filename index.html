@@ -286,13 +286,15 @@
                 </div>
                 
                 <div id="dots" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px;">
-                    </div>
+                    <!-- Dots sinh ra tự động -->
+                </div>
                 
                 <div style="flex: 1; text-align: right;">
                     <span id="quiz-lifelines-icons" onclick="useOneLifeline()" style="display: inline-block; font-size: 12px; font-weight: bold; color: #60a5fa; background: rgba(96,165,250,0.1); padding: 6px 10px; border-radius: 10px; border: 1px solid rgba(96,165,250,0.3); transition: all 0.3s; user-select: none;">🛟 x 1</span>
                 </div>
             </div>
 
+            <!-- BẢNG HƯỚNG DẪN GÕ -->
             <div id="typing-guide-box" class="hidden" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); padding: 12px; font-size: 11px; color: #cbd5e1; border-radius: 12px; margin-bottom: 12px; text-align: left; max-height: 200px; overflow-y: auto;">
                 <div style="background: rgba(251, 191, 36, 0.15); border: 1px dashed rgba(251, 191, 36, 0.4); padding: 8px; border-radius: 8px; margin-bottom: 10px; color: #fde047; text-align: center; font-style: italic;">
                     💡 [sich Akk/Dat] + [Präpositionen] + jmd../ etw (Akk/Dat) + <b>[Verben am Ende]</b>
@@ -349,10 +351,10 @@
         <ul>
             <li style="background: linear-gradient(135deg, #d97706, #b45309); padding: 18px; border-radius: 16px; border: none; box-shadow: 0 8px 25px rgba(217, 119, 6, 0.3); margin-bottom: 20px; text-align: left;">
                 <div style="background: #ffffff; color: #b45309; display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11px; margin-bottom: 10px; text-transform: uppercase; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    🧠 LERN-TIPP / PHƯƠNG PHÁP GHI NHỚ
+                    🧠 LERN-TIPP / PHƯƠNG PHÁP HỌC
                 </div>
                             
-                <span class="lang-vi" style="color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 6px; display: block;">* Das Wichtigste. Quan trọng nhất *</span>
+                <span class="lang-vi" style="color: #ffffff; font-weight: 800; font-size: 14px; margin-bottom: 6px; display: block;">* Quan trọng nhất (Das Wichtigste) *</span>
                 <span class="lang-vi" style="color: #ffffff; font-weight: 600; line-height: 1.4; display: block; margin-bottom: 8px;">Lấy <b>5 từ sai nhiều nhất</b> trên Heat-map và viết thành <b>1 ngữ cảnh</b> – đây là cách học tốt nhất!</span>
                 <span class="lang-de" style="color: rgba(255,255,255,0.9); font-weight: 500; font-size: 13px; line-height: 1.4; display: block;"><i>(Die 5 häufigsten Fehlerwörter auf der Heatmap in einen Kontext setzen – das ist die beste Lernmethode!)</i></span>
                                             
@@ -389,25 +391,29 @@
             </li>
             
             <li style="border: 1px solid rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.05); padding: 14px; border-radius: 12px; margin-top: 12px;">
-                <span class="lang-vi" style="color: #60a5fa; font-weight: 700; display: block; margin-bottom: 6px; font-size: 15px;">🛟 Cơ chế xài Phao</span>
-                <span class="lang-vi" style="color: #ffffff; display: block; line-height: 1.5;">Mỗi ngày bắt đầu với 1 phao. Cứ 3 từ đạt đủ điểm (3/3 🔥), bạn sẽ nhận được 1 🛟 (chứa tối đa 7 phao). Khi gõ sai, cái Phao sẽ nhấp nháy, bạn có thể bấm vào đó để sử dụng (Không mất Streak và chỉ cần gõ lại 1 lần). Nếu bấm Enter sẽ bị tính là Sai (Mất streak & phạt gõ 3 lần). Làm mới lúc 02:00 UTC.</span>
+                <span class="lang-vi" style="color: #60a5fa; font-weight: 700; display: block; margin-bottom: 6px; font-size: 15px;">🛟 Cơ chế xài Phao 🛟</span>
+                <span class="lang-vi" style="color: #ffffff; display: block; line-height: 1.5;">Mỗi ngày bắt đầu với 1 phao. Cứ 3 từ đạt đủ điểm (3/3 🔥), bạn sẽ nhận được 1 🛟 (tối đa 7 cái). Khi gõ sai, cái Phao sẽ nhấp nháy, bạn có thể bấm vào đó để sử dụng (Không mất Streak và chỉ cần gõ lại 1 lần). Nếu bấm Enter sẽ bị tính là Sai (Mất streak & phạt gõ 3 lần). Làm mới lúc 02:00 UTC.</span>
                 
                 <div style="background: rgba(251, 191, 36, 0.15); border: 1px dashed rgba(251, 191, 36, 0.4); padding: 10px; border-radius: 8px; margin-top: 10px; color: #fde047; font-size: 13px;">
-                    💡 <b>Mẹo nhỏ:</b> Nếu bạn đã dùng hết 7 cái phao 🛟, hãy tạm đóng app và nghỉ ngơi một chút nhé. Học ngôn ngữ cần sự bền bỉ, ép bản thân khi đang mệt sẽ không mang lại hiệu quả cao.
+                    💡 <b>Mẹo nhỏ:</b> Nếu bạn đã dùng hết phao 🛟, hãy tạm đóng app và nghỉ ngơi một chút nhé. Học ngôn ngữ cần sự bền bỉ, ép bản thân khi đang mệt sẽ không mang lại hiệu quả cao.
                 </div>
                 
-                <span class="lang-de" style="color: rgba(96, 165, 250, 0.6); font-weight: 700; display: block; margin-top: 12px;">🛟 Rettungsring </span>
+                <span class="lang-de" style="color: rgba(96, 165, 250, 0.6); font-weight: 700; display: block; margin-top: 12px;">🛟 Rettungsring 🛟</span>
                 <span class="lang-de" style="color: #64748b; display: block; font-size: 12.5px; line-height: 1.4;">Du beginnst jeden Tag mit 1 Rettungsring. Für jeweils 3 gemeisterte Wörter (3/3 🔥) erhältst du 1 🛟 (maximal 7). Bei einem Tippfehler blinkt der Rettungsring. Tippe ihn an, um ihn zu nutzen (kein Serien-Verlust, nur 1 neuer Versuch). Drücken der Eingabetaste zählt als Fehler (Serien-Verlust + 3 Versuche). Reset um 02:00 UTC.</span>
                 
                 <div style="background: rgba(251, 191, 36, 0.05); border: 1px dashed rgba(251, 191, 36, 0.2); padding: 10px; border-radius: 8px; margin-top: 8px; color: rgba(251, 191, 36, 0.7); font-size: 12px; font-style: italic;">
-                    💡 <b>Tipp:</b> Wenn du alle 7 Rettungsringe 🛟 aufgebraucht hast, mach am besten eine kurze Pause. Sprachenlernen erfordert Ausdauer – erzwinge nichts, wenn du erschöpft bist.
+                    💡 <b>Tipp:</b> Wenn du 7 Rettungsringe 🛟 aufgebraucht hast, mach am besten eine kurze Pause. Sprachenlernen erfordert Ausdauer – erzwinge nichts, wenn du erschöpft bist.
                 </div>
+            </li>
+			<li>
+                <span class="lang-vi" style="color: #ffffff; display: block;"> Có gì xin liên hệ / Bei Fragen kontaktieren Sie uns bitte.:</span>
+				<span class="lang-vi" style="color: #ffffff; display: block;"> tien.lengoc10Sep@gmail.com</span>
             </li>
         </ul>
         
         <div id="dont-show-again-container" style="margin-bottom: 15px; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 10px; border: 1px solid var(--border);">
             <input type="checkbox" id="dont-show-guide-checkbox" style="cursor: pointer; transform: scale(1.2);">
-            <label for="dont-show-guide-checkbox" style="font-size: 13px; color: #cbd5e1; cursor: pointer; user-select: none;">Không hiện bảng hướng dẫn này khi mở Website nữa / Diese Anleitung wird nicht mehr beim Öffnen der Website angezeigt.</label>
+            <label for="dont-show-guide-checkbox" style="font-size: 13px; color: #cbd5e1; cursor: pointer; user-select: none;">Không hiện bảng hướng dẫn này khi mở Webseite nữa / Dieser Tutorial-Bildschirm wird beim Öffnen die Webseite nicht mehr angezeigt.</label>
         </div>
 
         <button class="btn-main" style="padding: 12px; font-size: 14px; border-radius: 12px;" onclick="handleCloseGuideButton()">Đóng lại (Schließen)</button>
@@ -36065,7 +36071,6 @@
             targetResetTimestamp = yesterday.toISOString().split('T')[0];
         }
 
-        // ĐỔI TÊN KEY ĐỂ ÉP RESET CACHE CŨ CHO TẤT CẢ MỌI NGƯỜI
         const storedResetKey = localStorage.getItem('b2_lifeline_reset_v2') || "";
         
         if (storedResetKey !== targetResetTimestamp) {
@@ -36384,6 +36389,10 @@
         const input = document.getElementById('ans-input');
         const v = session[idx];
         
+        // --- DI CHUYỂN LOGIC ĐỌC ĐÁP ÁN LÊN TRƯỚC ĐỂ BẮT LỖI TỪ CHỐI PHAO ---
+        const target = currentStep === 1 ? v.word : v.ans;
+        const correct = normalizeGerman(input.value) === normalizeGerman(target);
+
         if (isOfferingLifeline) {
             isOfferingLifeline = false;
             document.getElementById('quiz-lifelines-icons').classList.remove('glow-warning');
@@ -36396,14 +36405,26 @@
             mastery[v.word].s = 0;
             mastery[v.word].w = (mastery[v.word].w || 0) + 1;
             save(); renderHeat();
-            penaltyMode = true; penaltyCount = 0; 
-            input.style.background = "rgba(248, 113, 113, 0.2)";
+            penaltyMode = true; 
+            
+            // XỬ LÝ: NẾU TỪ CHỐI PHAO BẰNG CÁCH GÕ LUÔN TỪ ĐÚNG VÀ BẤM ENTER
+            if (correct) {
+                penaltyCount = 1; // Tính luôn là đã gõ phạt thành công 1 lần
+                speakGerman(target);
+                input.style.background = "var(--success)";
+                setTimeout(() => {
+                    input.value = ""; 
+                    input.style.background = "rgba(248, 113, 113, 0.2)"; 
+                    updateDots();
+                }, 300);
+            } else {
+                penaltyCount = 0; // Gõ sai hoặc để trống thì đếm lại từ 0
+                input.style.background = "rgba(248, 113, 113, 0.2)";
+            }
+            
             updateDots(); showDetailFeedback(v, false);
             return; 
         }
-
-        const target = currentStep === 1 ? v.word : v.ans;
-        const correct = normalizeGerman(input.value) === normalizeGerman(target);
 
         if (!correct && !penaltyMode) {
             const removeKasusAndPronouns = (str) => normalizeGerman(str).replace(/\b(nominativ|akkusativ|dativ|genitiv|jemanden|jemandem|jemand|etwas)\b/gi, '').replace(/\s+/g, ' ').trim();
@@ -36479,16 +36500,15 @@
                         } else { 
                             mastery[v.word].s++; 
                             if (mastery[v.word].s === 3) {
-                                justMastered = true; // Đánh dấu từ này vừa mới max 3 điểm
+                                justMastered = true; 
                             }
                         }
                         save(); renderHeat();
 
-                        // --- LOGIC TÍCH LŨY PHAO (CHỈ TĂNG KHI HOÀN THÀNH TRỌN VẸN 3/3 STREAK CỦA 1 TỪ) ---
                         if (justMastered) {
                             let pCounter = parseInt(localStorage.getItem('b2_mastered_words_counter') || '0');
                             pCounter++;
-                            if (pCounter >= 3) { // Đạt đủ 3 từ max điểm
+                            if (pCounter >= 3) { 
                                 pCounter = 0;
                                 if (lifelines < 7) {
                                     lifelines++;
@@ -36498,7 +36518,6 @@
                             }
                             localStorage.setItem('b2_mastered_words_counter', pCounter);
                         }
-                        // -----------------------------------------------------------------------------------
                     }
                     setTimeout(() => { currentStep = 1; idx++; isTransitioning = false; showWord(); }, 150); 
                 }
