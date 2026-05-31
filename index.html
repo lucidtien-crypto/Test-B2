@@ -171,7 +171,7 @@
         .hidden { display: none !important; }
         
         .quiz-lifelines-bar {
-            display: flex; justify-content: center; align-items: center; gap: 6px; margin-top: -5px; margin-bottom: 15px; font-size: 13px; font-weight: 700; color: #60a5fa; background: rgba(96, 165, 250, 0.06); padding: 6px 16px; border-radius: 12px; border: 1px solid rgba(96, 165, 250, 0.1);
+            display: flex; justify-content: center; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #60a5fa; background: rgba(96, 165, 250, 0.06); padding: 6px 12px; border-radius: 12px; border: 1px solid rgba(96, 165, 250, 0.1);
         }
 
         /* Khung điều khiển nhạc Bach nhỏ gọn */
@@ -261,7 +261,14 @@
     </div>
 
     <div id="quiz-screen" class="hidden">
-        <div id="quiz-lifeline-bar" class="quiz-lifelines-bar">Phao bảo toàn Streak trong ngày: <span id="quiz-lifelines-icons">🛟 🛟 🛟</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: stretch; gap: 8px; margin-top: -5px; margin-bottom: 15px;">
+            <div class="btn-guide-trigger" onclick="openTypingGuide()" style="margin: 0; background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.3); color: #7dd3fc; font-size: 12px; padding: 6px 12px; box-sizing: border-box; flex: 0 0 auto;">
+                ⌨️ Cách gõ (Tippen)
+            </div>
+            <div id="quiz-lifeline-bar" class="quiz-lifelines-bar" style="margin: 0; flex: 1; text-align: center; box-sizing: border-box;">
+                Phao bảo toàn Streak: <span id="quiz-lifelines-icons" style="margin-left: 5px;">🛟 🛟 🛟</span>
+            </div>
+        </div>
         
         <div id="quiz-top-info" style="font-size: 14px; color: #94a3b8; text-align: center; margin-bottom: 15px; font-style: italic;">
             💡 <b></b> [sich Akk/Dat] + [Präpositionen] + jemand../ etwas (Akk/Dat) + <b>[Verben am Ende]</b>
@@ -273,7 +280,7 @@
             <textarea id="ans-input" rows="2" placeholder="Ergänzen Sie bitte den deutschen Text..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" data-lpignore="true"></textarea>
             <div class="feedback-box" id="fb"></div>
             <button class="btn-main flex-center-col" id="check-btn" onclick="processCheck()" style="padding: 14px; font-size: 16px;">Checken</button>
-            <p onclick="location.reload()" style="text-align: center; font-size: 12px; color: var(--text); cursor: pointer; margin-top: 20px; opacity: 0.6">← Zurück zum Menü</p>
+            <p onclick="backToMenu()" style="text-align: center; font-size: 12px; color: var(--text); cursor: pointer; margin-top: 20px; opacity: 0.6">← Zurück zum Menü</p>
         </div>
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px">
@@ -289,8 +296,45 @@
             <h2 style="color:var(--success); font-size: 28px;">Fertig! 🥳</h2>
             <p style="font-size: 14px; opacity: 0.8; margin-bottom:20px">Đã hoàn thành lượt ôn tập này.</p>
             <button class="btn-main" style="padding: 14px;" onclick="restartLastSession()">Học tiếp (Enter)</button>
-            <p onclick="location.reload()" style="font-size: 12px; opacity: 0.6; cursor: pointer; margin-top: 20px;">← Về Menu chính</p>
+            <p onclick="backToMenu()" style="font-size: 12px; opacity: 0.6; cursor: pointer; margin-top: 20px;">← Về Menu chính</p>
         </div>
+    </div>
+</div>
+
+<div id="typing-modal" class="modal-overlay hidden" onclick="closeTypingGuide()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3 style="color: #7dd3fc; border-bottom: none; margin-bottom: 5px;">⌨️ Die korrekte Schreibweise</h3>
+        <div style="font-size: 13px; color: #94a3b8; font-weight: normal; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Cách viết đúng (Chấp nhận viết tắt linh hoạt)</div>
+        
+        <div style="font-size: 13px; line-height: 1.6; color: #cbd5e1;">
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); padding: 14px; border-radius: 14px; margin-bottom: 12px;">
+                <b style="color: var(--primary); display: block; margin-bottom: 10px; font-size: 14px;">1. für jemanden / etwas(Akk) verantwortlich sein</b>
+                <ul style="margin: 0; padding-left: 0; list-style: none; color: #a7f3d0;">
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ für jmdn etw Akk verantwortlich sein</li>
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ für etw jmdn Akk verantwortlich sein</li>
+                    <li style="padding-bottom: 0; border: none;">✔️ für jemanden / etwas(Akk) verantwortlich sein</li>
+                </ul>
+            </div>
+
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); padding: 14px; border-radius: 14px; margin-bottom: 12px;">
+                <b style="color: var(--primary); display: block; margin-bottom: 10px; font-size: 14px;">2. der Zuschauer, - / die Zuschauerin, nen</b>
+                <ul style="margin: 0; padding-left: 0; list-style: none; color: #a7f3d0;">
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ r Zuschauer, - e Zuschauerin, nen</li>
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ der Zuschauer, - e Zuschauerin, nen</li>
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ r Zuschauer, - die Zuschauerin, nen</li>
+                    <li style="padding-bottom: 0; border: none;">✔️ der Zuschauer, - / die Zuschauerin, nen</li>
+                </ul>
+            </div>
+
+            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid var(--border); padding: 14px; border-radius: 14px;">
+                <b style="color: var(--primary); display: block; margin-bottom: 10px; font-size: 14px;">3. nach Reichtum und Erfolg (Dat) im Leben (Dat) streben</b>
+                <ul style="margin: 0; padding-left: 0; list-style: none; color: #a7f3d0;">
+                    <li style="margin-bottom: 6px; padding-bottom: 0; border: none;">✔️ nach Reichtum und Erfolg Dat im Leben Dat streben</li>
+                    <li style="padding-bottom: 0; border: none;">✔️ nach Reichtum und Erfolg (Dat) im Leben (Dat) streben</li>
+                </ul>
+            </div>
+        </div>
+        <button class="btn-main" style="padding: 12px; font-size: 14px; border-radius: 12px; margin-top: 20px; background: linear-gradient(135deg, #0ea5e9, #3b82f6);" onclick="closeTypingGuide()">Verstanden / Đã hiểu</button>
     </div>
 </div>
 
@@ -298,12 +342,19 @@
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3>💡 Anleitung / Hướng dẫn sử dụng</h3>
         <ul>
-            <li style="border: 1px solid rgba(248, 113, 113, 0.4); background: rgba(248, 113, 113, 0.05); padding: 12px; border-radius: 12px;">
-                <span class="lang-de" style="color: var(--danger); font-weight: 700;">⚠️ WICHTIG: Datensicherung (Backup)</span>
-                <span class="lang-de">Sichern Sie Ihren Streak regelmäßig! Wenn Sie kein Backup erstellen, gehen all Ihre hart erarbeiteten Streaks komplett verloren, sobald der Browser-Cache geleert wird. Caches werden oft automatisch bereinigt.</span>
-                <span class="lang-vi" style="color: var(--danger); font-weight: 700;">⚠️ QUAN TRỌNG: Sao lưu dữ liệu (Backup)</span>
-                <span class="lang-vi">Hãy bấm nút "Sao lưu Streak" định kỳ! NẾU KHÔNG SAO LƯU, BẠN SẼ BỊ MẤT SẠCH TIẾN ĐỘ STREAK khi trình duyệt dọn dẹp bộ nhớ đệm (Cache). Bộ nhớ đệm thường bị xóa tự động mà không báo trước.</span>
+            <li style="background: linear-gradient(135deg, #9333ea, #db2777); padding: 18px; border-radius: 16px; border: none; box-shadow: 0 8px 25px rgba(219, 39, 119, 0.3); margin-bottom: 20px; text-align: left;">
+                <div style="background: #ffffff; color: #db2777; display: inline-block; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 11px; margin-bottom: 10px; text-transform: uppercase; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    WICHTIG / QUAN TRỌNG
+                </div>
+                <span class="lang-de" style="color: #ffffff; font-weight: 800; font-size: 16px; margin-bottom: 6px;">💾 Datensicherung (Backup)</span>
+                <span class="lang-de" style="color: #fdf2f8; font-weight: 600; line-height: 1.4;">Bitte denken Sie daran, Ihren Streak regelmäßig zu sichern! Browser leeren oft automatisch ihren Cache, was zum Verlust Ihres Fortschritts führen kann. Ein kurzes Backup schützt Ihre harte Arbeit!</span>
+                
+                <div style="height: 1px; background: rgba(255,255,255,0.25); margin: 12px 0;"></div>
+                
+                <span class="lang-vi" style="color: #ffffff; font-weight: 800; font-size: 15px; margin-bottom: 6px;">💾 Mẹo nhỏ: Sao lưu dữ liệu (Backup)</span>
+                <span class="lang-vi" style="color: #fdf2f8; font-weight: 600; line-height: 1.4;">Bạn nhớ bấm nút "Sao lưu Streak" định kỳ nhé! Trình duyệt web đôi khi tự dọn dẹp bộ nhớ (Cache) và có thể làm mất tiến độ học của bạn. Chỉ tốn 1 giây sao lưu để bảo vệ thành quả của mình!</span>
             </li>
+
             <li style="border: 1px solid rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.05); padding: 10px; border-radius: 12px; margin-top: 12px;">
                 <span class="lang-de" style="color: #60a5fa; font-weight: 700;">🛟 Rettungsringe (Lifelines)</span>
                 <span class="lang-de">Sie haben täglich 3 Rettungsringe für alle Lektionen. Bei einem Fehler schützt ein Klick auf den Rettungsring Ihren Streak vor dem Verlust. Sie müssen das Wort jedoch sofort fehlerfrei neu eintippen. Das System wird täglich um 2:00 Uhr UTC (00:00 Uhr in Deutschland) zurückgesetzt.</span>
@@ -358,7 +409,6 @@
 </div>
 
 <script>
-    // Mảng dữ liệu từ vựng của bạn
     const data = [
         {
             "word": "verantwortlich",
@@ -35825,42 +35875,57 @@
 
     let lifelines = 3;
     let lastLifelineReset = ""; 
+    let isOfferingLifeline = false;
 
-    // Biến toàn cục điều khiển Player nhạc Bach và cờ theo dõi trạng thái nhạc
+    // --- FIX TƯƠNG THÍCH MOBILE: Lazy Load YouTube API ---
     let bachPlayer = null;
     let isMusicPlaying = false;
+    let isYtApiReady = false;
 
-    // Tải thư viện Youtube Iframe API tự động
+    // Tải sẵn Script API của YouTube nhưng CHƯA TẠO PLAYER để không chiếm âm thanh
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     const firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    // Hàm gọi tự động bởi thư viện Youtube API khi tải xong
     function onYouTubeIframeAPIReady() {
-        bachPlayer = new YT.Player('bach-player', {
-            height: '0', width: '0',
-            videoId: 'EQHwjg_cYAo',
-            playerVars: {
-                'autoplay': 0, // Đặt bằng 0 để tuân thủ Autoplay Policy của trình duyệt
-                'loop': 1,
-                'playlist': 'EQHwjg_cYAo',
-                'controls': 0
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    }
-
-    function onPlayerReady(event) {
-        event.target.setVolume(4); // Mức âm lượng siêu nhỏ (4%)
+        isYtApiReady = true;
     }
 
     function toggleBachMusic() {
-        if (!bachPlayer || typeof bachPlayer.getPlayerState !== 'function') return;
         const btn = document.getElementById('music-toggle-btn');
         
+        // Lần đầu tiên bấm PLAY: Khởi tạo Iframe (Bắt buộc phải khởi tạo khi có thao tác Click trên điện thoại)
+        if (!bachPlayer) {
+            if (!isYtApiReady) {
+                alert("Đang tải dữ liệu nhạc, vui lòng thử lại sau 1 giây...");
+                return;
+            }
+            btn.innerText = "⏳ ĐANG TẢI...";
+            bachPlayer = new YT.Player('bach-player', {
+                height: '0', width: '0',
+                videoId: 'EQHwjg_cYAo',
+                playerVars: {
+                    'playsinline': 1, // Bắt buộc cho iOS
+                    'autoplay': 1,    // Tự phát do nằm trong sự kiện click
+                    'loop': 1,
+                    'playlist': 'EQHwjg_cYAo',
+                    'controls': 0
+                },
+                events: {
+                    'onReady': (event) => {
+                        event.target.setVolume(4); 
+                        event.target.playVideo();
+                        btn.innerText = "PAUSE";
+                        btn.style.background = "var(--primary)";
+                        isMusicPlaying = true;
+                    }
+                }
+            });
+            return;
+        }
+
+        // Nếu đã tạo rồi thì chỉ bật/tắt
         if (isMusicPlaying) {
             bachPlayer.pauseVideo();
             btn.innerText = "PLAY";
@@ -35872,6 +35937,14 @@
             btn.style.background = "var(--primary)";
             isMusicPlaying = true;
         }
+    }
+    // -----------------------------------------------------
+
+    function backToMenu() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.getElementById('finish-screen').classList.add('hidden');
+        document.getElementById('menu-screen').classList.remove('hidden');
+        renderList(); 
     }
 
     function restartLastSession() {
@@ -35905,6 +35978,13 @@
     }
     function closeLernTipp() {
         document.getElementById('lerntipp-modal').classList.add('hidden');
+    }
+
+    function openTypingGuide() {
+        document.getElementById('typing-modal').classList.remove('hidden');
+    }
+    function closeTypingGuide() {
+        document.getElementById('typing-modal').classList.add('hidden');
     }
 
     const loadVoices = () => {
@@ -36036,7 +36116,6 @@
         renderList();
     }
 
-    // Kiểm tra và tự động Reset làm mới phao cứu sinh lúc 2:00 UTC (tức 00h tại Đức)
     function checkAndResetLifelines() {
         const now = new Date();
         const resetToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 2, 0, 0, 0));
@@ -36067,7 +36146,7 @@
         const iconContainer = document.getElementById('quiz-lifelines-icons');
         if (iconContainer) {
             if (lifelines <= 0) {
-                iconContainer.innerHTML = `<span style="color: var(--danger); font-size:12px;">Hết phao cứu sinh hôm nay</span>`;
+                iconContainer.innerHTML = `<span style="color: var(--danger); font-size:12px;">Hết phao hôm nay</span>`;
             } else {
                 iconContainer.innerHTML = Array(lifelines).fill("🛟").join(" ");
             }
@@ -36075,10 +36154,17 @@
     }
 
     function useOneLifeline() {
-        if (lifelines > 0) {
+        if (lifelines > 0 && isOfferingLifeline) {
             lifelines--;
             localStorage.setItem('b2_lifelines_count', lifelines);
             updateLifelineUI();
+            
+            isOfferingLifeline = false; 
+            
+            const checkBtn = document.getElementById('check-btn');
+            checkBtn.innerHTML = "Checken";
+            checkBtn.style.background = "linear-gradient(135deg, #6d28d9, #a21caf)";
+            checkBtn.style.color = "white";
             
             penaltyMode = true; 
             penaltyCount = 0; 
@@ -36094,6 +36180,11 @@
     }
 
     function startSession(mode = 'normal') {
+        // [FIX MOBILE] Mở khóa Audio trên điện thoại khi có tương tác chạm (Touch/Click)
+        if (window.responsiveVoice) {
+            responsiveVoice.speak("", "Deutsch Male"); 
+        }
+
         lastMode = mode;
         localStorage.setItem('b2_last_mode', mode);
 
@@ -36138,6 +36229,7 @@
         }
 
         idx = 0; currentStep = 1; penaltyMode = false; penaltyCount = 0; isWaitingForNext = false;
+        isOfferingLifeline = false; 
         
         document.getElementById('menu-screen').classList.add('hidden');
         document.getElementById('finish-screen').classList.add('hidden');
@@ -36268,6 +36360,14 @@
         const v = session[idx];
         const inputField = document.getElementById('ans-input');
         if (currentStep !== 1 && currentStep !== 2) currentStep = 1;
+        isOfferingLifeline = false; 
+
+        const checkBtn = document.getElementById('check-btn');
+        if (checkBtn) {
+            checkBtn.innerHTML = "Checken";
+            checkBtn.style.background = "linear-gradient(135deg, #6d28d9, #a21caf)";
+            checkBtn.style.color = "white";
+        }
 
         let fullType = (v.type || "Wort").replace(/\bAdj\.?\b/gi, "Adjektiv").replace(/\bAdv\.?\b/gi, "Adverb");
         const stepText = currentStep === 1 ? "BƯỚC 1: TỪ GỐC" : "BƯỚC 2: CỤM TỪ";
@@ -36325,6 +36425,24 @@
 
         const input = document.getElementById('ans-input');
         const v = session[idx];
+        
+        if (isOfferingLifeline) {
+            isOfferingLifeline = false;
+            
+            const checkBtn = document.getElementById('check-btn');
+            checkBtn.innerHTML = "Checken";
+            checkBtn.style.background = "linear-gradient(135deg, #6d28d9, #a21caf)";
+            checkBtn.style.color = "white";
+
+            mastery[v.word].s = 0;
+            mastery[v.word].w = (mastery[v.word].w || 0) + 1;
+            save(); renderHeat();
+            penaltyMode = true; penaltyCount = 0; 
+            input.style.background = "rgba(248, 113, 113, 0.2)";
+            updateDots(); showDetailFeedback(v, false);
+            return; 
+        }
+
         const target = currentStep === 1 ? v.word : v.ans;
         const correct = normalizeGerman(input.value) === normalizeGerman(target);
 
@@ -36409,7 +36527,15 @@
                 showDetailFeedback(v, false);
                 isWaitingForNext = true; 
             } else {
+                
                 if (!penaltyMode && lifelines > 0) {
+                    isOfferingLifeline = true; 
+                    
+                    const checkBtn = document.getElementById('check-btn');
+                    checkBtn.innerHTML = "Bỏ qua phao & Chấp nhận sai (Enter)";
+                    checkBtn.style.background = "rgba(255, 255, 255, 0.08)";
+                    checkBtn.style.color = "#cbd5e1";
+                    
                     input.style.background = "rgba(251, 146, 60, 0.2)";
                     showDetailFeedback(v, false, true); 
                     return;
@@ -36449,11 +36575,11 @@
 
         let lifelineButtonHTML = "";
         if (offerLifeline && lifelines > 0) {
-            warningText = "⚠️ Sai rồi! Bạn sẽ bị hạ chuỗi Streak hiện tại về 0!";
+            warningText = `Oops! Tiếc quá, bạn gõ sai mất rồi. Bạn có muốn dùng Phao cứu sinh để giữ lại điểm Streak không?`;
             lifelineButtonHTML = `
                 <div style="text-align: center; margin-top: 12px;">
-                    <button class="btn-main" onclick="useOneLifeline()" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 10px 16px; font-size: 13px; border-radius: 12px; width: auto; box-shadow: 0 4px 12px rgba(37,99,235,0.4);">
-                        🛟 Kích hoạt Phao bảo toàn Streak (Còn ${lifelines})
+                    <button class="btn-main" onclick="useOneLifeline()" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); padding: 12px 16px; font-size: 14px; border-radius: 12px; width: auto; box-shadow: 0 4px 15px rgba(37,99,235,0.5);">
+                        🛟 BẤM VÀO ĐÂY ĐỂ DÙNG PHAO (Còn ${lifelines})
                     </button>
                 </div>
             `;
@@ -36479,7 +36605,7 @@
                     <p style="margin:5px 0 2px 0; color: #f8fafc;"><b>B1+:</b> ${v.b1_ex}</p><p style="margin:0 0 10px 0; font-size:12px; opacity:0.7; font-style: italic;">${v.vn_b1}</p>
                     <p style="margin:5px 0 2px 0; color: #f8fafc;"><b>B2:</b> ${v.b2_ex}</p><p style="margin:0 0 5px 0; font-size:12px; opacity:0.7; font-style: italic;">${v.vn_b2}</p>
                 </div>
-                ${!isCorrect ? `<p style="color:${offerLifeline ? 'var(--warning)' : 'var(--danger)'}; font-size:12px; margin-top:10px; text-align:center; font-weight:bold;">${warningText}</p>` : `<p style="color:var(--success); font-size:11px; margin-top:10px; text-align:center;">✨ Chính xác! Tự động lướt qua... ✨</p>`}
+                ${!isCorrect ? `<p style="color:${offerLifeline ? 'var(--warning)' : 'var(--danger)'}; font-size:12.5px; margin-top:10px; text-align:center; font-weight:bold;">${warningText}</p>` : `<p style="color:var(--success); font-size:11px; margin-top:10px; text-align:center;">✨ Chính xác! Tự động lướt qua... ✨</p>`}
                 ${lifelineButtonHTML}
             </div>
         `;
@@ -36495,14 +36621,16 @@
             const quizScreen = document.getElementById('quiz-screen');
             const input = document.getElementById('ans-input');
 
-            if (!quizScreen.classList.contains('hidden') && lifelines > 0 && document.querySelector('#fb button') && !penaltyMode) {
-                return;
-            }
-
             if (!menuScreen.classList.contains('hidden')) { restartLastSession(); return; }
             if (!finishScreen.classList.contains('hidden')) { restartLastSession(); return; }
             
             if (!quizScreen.classList.contains('hidden')) {
+                
+                if (isOfferingLifeline) {
+                    processCheck(); 
+                    return;
+                }
+
                 if (typeof isWaitingForNext !== 'undefined' && isWaitingForNext) {
                     isWaitingForNext = false;
                     if (currentStep === 1) { currentStep = 2; } else { currentStep = 1; idx++; }
